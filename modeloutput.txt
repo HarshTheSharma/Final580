@@ -1,0 +1,183 @@
+Using device: cuda
+Trainloader loaded: 938
+MNISTMLP(
+  (fc1): Linear(in_features=784, out_features=512, bias=True)
+  (bn1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (fc2): Linear(in_features=512, out_features=256, bias=True)
+  (bn2): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (fc3): Linear(in_features=256, out_features=128, bias=True)
+  (bn3): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (fc4): Linear(in_features=128, out_features=10, bias=True)
+  (dropout): Dropout(p=0.3, inplace=False)
+)
+Epoch 1/100, Loss: 1.2633
+Epoch 2/100, Loss: 0.8588
+Epoch 3/100, Loss: 0.7405
+Epoch 4/100, Loss: 0.6790
+Epoch 5/100, Loss: 0.6262
+Epoch 6/100, Loss: 0.5985
+Epoch 7/100, Loss: 0.5715
+Epoch 8/100, Loss: 0.5481
+Epoch 9/100, Loss: 0.5276
+Epoch 10/100, Loss: 0.5164
+Epoch 11/100, Loss: 0.4952
+Epoch 12/100, Loss: 0.4841
+Epoch 13/100, Loss: 0.4766
+Epoch 14/100, Loss: 0.4703
+Epoch 15/100, Loss: 0.4599
+Epoch 16/100, Loss: 0.4494
+Epoch 17/100, Loss: 0.4528
+Epoch 18/100, Loss: 0.4435
+Epoch 19/100, Loss: 0.4356
+Epoch 20/100, Loss: 0.4323
+Epoch 21/100, Loss: 0.4289
+Epoch 22/100, Loss: 0.4162
+Epoch 23/100, Loss: 0.4245
+Epoch 24/100, Loss: 0.4174
+Epoch 25/100, Loss: 0.4184
+Epoch 26/100, Loss: 0.3805
+Epoch 27/100, Loss: 0.3663
+Epoch 28/100, Loss: 0.3693
+Epoch 29/100, Loss: 0.3680
+Epoch 30/100, Loss: 0.3614
+Epoch 31/100, Loss: 0.3570
+Epoch 32/100, Loss: 0.3566
+Epoch 33/100, Loss: 0.3572
+Epoch 34/100, Loss: 0.3578
+Epoch 35/100, Loss: 0.3505
+Epoch 36/100, Loss: 0.3490
+Epoch 37/100, Loss: 0.3523
+Epoch 38/100, Loss: 0.3471
+Epoch 39/100, Loss: 0.3473
+Epoch 40/100, Loss: 0.3433
+Epoch 41/100, Loss: 0.3421
+Epoch 42/100, Loss: 0.3429
+Epoch 43/100, Loss: 0.3369
+Epoch 44/100, Loss: 0.3409
+Epoch 45/100, Loss: 0.3394
+Epoch 46/100, Loss: 0.3381
+Epoch 47/100, Loss: 0.3270
+Epoch 48/100, Loss: 0.3198
+Epoch 49/100, Loss: 0.3114
+Epoch 50/100, Loss: 0.3138
+Epoch 51/100, Loss: 0.3141
+Epoch 52/100, Loss: 0.3129
+Epoch 53/100, Loss: 0.3083
+Epoch 54/100, Loss: 0.2992
+Epoch 55/100, Loss: 0.2990
+Epoch 56/100, Loss: 0.3039
+Epoch 57/100, Loss: 0.2970
+Epoch 58/100, Loss: 0.2958
+Epoch 59/100, Loss: 0.2972
+Epoch 60/100, Loss: 0.2940
+Epoch 61/100, Loss: 0.2937
+Epoch 62/100, Loss: 0.2943
+Epoch 63/100, Loss: 0.2915
+Epoch 64/100, Loss: 0.2888
+Epoch 65/100, Loss: 0.2914
+Epoch 66/100, Loss: 0.2917
+Epoch 67/100, Loss: 0.2861
+Epoch 68/100, Loss: 0.2966
+Epoch 69/100, Loss: 0.2892
+Epoch 70/100, Loss: 0.2901
+Epoch 71/100, Loss: 0.2926
+Epoch 72/100, Loss: 0.2855
+Epoch 73/100, Loss: 0.2869
+Epoch 74/100, Loss: 0.2841
+Epoch 75/100, Loss: 0.2778
+Epoch 76/100, Loss: 0.2826
+Epoch 77/100, Loss: 0.2823
+Epoch 78/100, Loss: 0.2842
+Epoch 79/100, Loss: 0.2832
+Epoch 80/100, Loss: 0.2794
+Epoch 81/100, Loss: 0.2810
+Epoch 82/100, Loss: 0.2768
+Epoch 83/100, Loss: 0.2819
+Epoch 84/100, Loss: 0.2731
+Epoch 85/100, Loss: 0.2804
+Epoch 86/100, Loss: 0.2776
+Epoch 87/100, Loss: 0.2766
+Epoch 88/100, Loss: 0.2737
+Epoch 89/100, Loss: 0.2744
+Epoch 90/100, Loss: 0.2736
+Epoch 91/100, Loss: 0.2805
+Epoch 92/100, Loss: 0.2732
+Epoch 93/100, Loss: 0.2703
+Epoch 94/100, Loss: 0.2746
+Epoch 95/100, Loss: 0.2747
+Epoch 96/100, Loss: 0.2768
+Epoch 97/100, Loss: 0.2789
+Epoch 98/100, Loss: 0.2792
+Epoch 99/100, Loss: 0.2752
+Epoch 100/100, Loss: 0.2755
+Training complete.
+
+==== MNIST Test Set RESULTS ====
+Accuracy: 0.9913
+Error Rate: 0.0087
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0     0.9949    0.9959    0.9954       980
+           1     0.9930    0.9982    0.9956      1135
+           2     0.9951    0.9922    0.9937      1032
+           3     0.9872    0.9901    0.9886      1010
+           4     0.9839    0.9939    0.9889       982
+           5     0.9899    0.9933    0.9916       892
+           6     0.9927    0.9906    0.9916       958
+           7     0.9836    0.9932    0.9884      1028
+           8     1.0000    0.9836    0.9917       974
+           9     0.9930    0.9812    0.9870      1009
+
+    accuracy                         0.9913     10000
+   macro avg     0.9913    0.9912    0.9913     10000
+weighted avg     0.9913    0.9913    0.9913     10000
+
+Confusion Matrix:
+[[ 976    0    0    0    0    1    2    1    0    0]
+ [   0 1133    0    0    0    0    1    1    0    0]
+ [   1    0 1024    3    1    0    0    3    0    0]
+ [   1    0    0 1000    0    3    0    4    0    2]
+ [   0    0    0    0  976    0    3    1    0    2]
+ [   1    0    0    3    1  886    1    0    0    0]
+ [   2    3    0    0    2    2  949    0    0    0]
+ [   0    3    3    0    1    0    0 1021    0    0]
+ [   0    1    2    5    1    2    0    2  958    3]
+ [   0    1    0    2   10    1    0    5    0  990]]
+MNIST test accuracy (float): 0.9913
+Handwritten digits found: 330
+
+==== Handwritten Digits RESULTS ====
+Accuracy: 0.9606
+Error Rate: 0.0394
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0     0.8684    1.0000    0.9296        33
+           1     1.0000    0.9697    0.9846        33
+           2     0.8919    1.0000    0.9429        33
+           3     1.0000    0.9394    0.9688        33
+           4     1.0000    0.9697    0.9846        33
+           5     0.9394    0.9394    0.9394        33
+           6     0.9677    0.9091    0.9375        33
+           7     0.9706    1.0000    0.9851        33
+           8     1.0000    0.8788    0.9355        33
+           9     1.0000    1.0000    1.0000        33
+
+    accuracy                         0.9606       330
+   macro avg     0.9638    0.9606    0.9608       330
+weighted avg     0.9638    0.9606    0.9608       330
+
+Confusion Matrix:
+[[33  0  0  0  0  0  0  0  0  0]
+ [ 0 32  1  0  0  0  0  0  0  0]
+ [ 0  0 33  0  0  0  0  0  0  0]
+ [ 0  0  1 31  0  1  0  0  0  0]
+ [ 0  0  0  0 32  0  0  1  0  0]
+ [ 0  0  1  0  0 31  1  0  0  0]
+ [ 3  0  0  0  0  0 30  0  0  0]
+ [ 0  0  0  0  0  0  0 33  0  0]
+ [ 2  0  1  0  0  1  0  0 29  0]
+ [ 0  0  0  0  0  0  0  0  0 33]]
