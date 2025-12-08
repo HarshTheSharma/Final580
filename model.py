@@ -190,7 +190,9 @@ for i in range(32):
     plt.title(labels[i].item())
     plt.axis("off")
 plt.tight_layout()
-plt.show()
+plt.show(block=False)
+plt.pause(0.001)
+
 
 # ============================================================
 # 2. Model definition
@@ -237,13 +239,13 @@ print(model)
 # ============================================================
 
 numEpochs = 100
-allLosses = []
+epochTrainLosses = []
 valLosses = []
+learningRates = []
 
 for epoch in range(numEpochs):
     model.train()
     runningLoss = 0.0
-    batchLosses = []
 
     for images, labels in trainLoader:
         images, labels = images.to(device), labels.to(device)
@@ -254,12 +256,10 @@ for epoch in range(numEpochs):
         loss.backward()
         optimizer.step()
 
-        val = loss.item()
-        runningLoss += val
-        batchLosses.append(val)
+        runningLoss += loss.item()
 
     epochLoss = runningLoss / len(trainLoader)
-    allLosses.append(batchLosses)
+    epochTrainLosses.append(epochLoss)
 
     # ---- validation loss (no gradient, no augmentation) ----
     model.eval()
@@ -274,24 +274,44 @@ for epoch in range(numEpochs):
     valLoss = valRunningLoss / len(valLoader)
     valLosses.append(valLoss)
 
+    # Step scheduler on validation loss, then read scalar LR
     scheduler.step(valLoss)
+    currentLr = optimizer.param_groups[0]["lr"]
+    learningRates.append(currentLr)
 
     print(
         f"Epoch {epoch+1}/{numEpochs}, "
         f"Train Loss: {epochLoss:.4f}, Val Loss: {valLoss:.4f} "
-        f"Learning Rate: {scheduler.get_last_lr()}"
+        f"Learning Rate: {currentLr:.6f}"
     )
-    learningRates.append(scheduler.get_last_lr())
 
 print("Training complete.")
 
+epochs = range(1, numEpochs + 1)
+
 plt.figure(figsize=(10, 4))
-plt.plot(allLosses[0], label="Epoch 1 train batches")
-plt.xlabel("Batch index")
+plt.plot(epochs, epochTrainLosses, label="Train Loss")
+plt.plot(epochs, valLosses, label="Val Loss")
+plt.xlabel("Epoch")
 plt.ylabel("Loss")
-plt.title("Training Loss per Batch (Epoch 1)")
+plt.title("Train and Validation Loss per Epoch")
 plt.legend()
-plt.show()
+plt.tight_layout()
+plt.show(block=False)
+plt.pause(0.001)
+
+
+# Learning rate per epoch
+plt.figure(figsize=(10, 4))
+plt.plot(epochs, learningRates, label="Learning Rate")
+plt.xlabel("Epoch")
+plt.ylabel("LR")
+plt.title("Learning Rate per Epoch")
+plt.legend()
+plt.tight_layout()
+plt.show(block=False)
+plt.pause(0.001)
+
 
 # ============================================================
 # 4. Evaluation helpers
