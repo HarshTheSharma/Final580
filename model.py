@@ -279,7 +279,9 @@ for epoch in range(numEpochs):
     print(
         f"Epoch {epoch+1}/{numEpochs}, "
         f"Train Loss: {epochLoss:.4f}, Val Loss: {valLoss:.4f}"
+        f"Learning Rate: {scheduler.get_last_lr()}"
     )
+    learningRates.append(scheduler.get_last_lr())
 
 print("Training complete.")
 
