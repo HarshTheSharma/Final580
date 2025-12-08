@@ -14,7 +14,7 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 from torchvision import datasets, transforms
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, Subset
 from sklearn.metrics import classification_report, confusion_matrix
 
 # ------------------------------------------------------------
@@ -148,10 +148,28 @@ def PreprocessSingle(image):
     return Image.fromarray(stretched, mode="L")
 
 
-trainSet = datasets.MNIST(
+# -----------------------------
+# MNIST train/val/test split
+# -----------------------------
+fullTrainAug = datasets.MNIST(
     "~/.pytorch/MNIST_data/", download=True, train=True, transform=trainTransform
 )
+fullTrainPlain = datasets.MNIST(
+    "~/.pytorch/MNIST_data/", download=True, train=True, transform=transform
+)
+
+trainSize = int(0.9 * len(fullTrainAug))
+valSize = len(fullTrainAug) - trainSize
+
+indices = torch.randperm(len(fullTrainAug)).tolist()
+trainIdx = indices[:trainSize]
+valIdx = indices[trainSize:]
+
+trainSet = Subset(fullTrainAug, trainIdx)   # with augmentation
+valSet = Subset(fullTrainPlain, valIdx)     # no augmentation
+
 trainLoader = torch.utils.data.DataLoader(trainSet, batch_size=64, shuffle=True)
+valLoader = torch.utils.data.DataLoader(valSet, batch_size=64, shuffle=False)
 
 testSet = datasets.MNIST(
     "~/.pytorch/MNIST_data/", download=True, train=False, transform=transform
@@ -159,6 +177,7 @@ testSet = datasets.MNIST(
 testLoader = torch.utils.data.DataLoader(testSet, batch_size=64, shuffle=False)
 
 print("Trainloader loaded:", len(trainLoader))
+print("Valloader loaded:", len(valLoader))
 
 dataIter = iter(trainLoader)
 imgs, labels = next(dataIter)
@@ -208,17 +227,18 @@ optimizer = torch.optim.Adam(model.parameters(), lr=5e-4, weight_decay=1e-4)
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
     optimizer,
     factor=0.5,
-    patience=2,
+    patience=5,
 )
 
 print(model)
 
 # ============================================================
-# 3. Training loop
+# 3. Training + validation loop
 # ============================================================
 
 numEpochs = 100
 allLosses = []
+valLosses = []
 
 for epoch in range(numEpochs):
     model.train()
@@ -240,17 +260,34 @@ for epoch in range(numEpochs):
 
     epochLoss = runningLoss / len(trainLoader)
     allLosses.append(batchLosses)
-    scheduler.step(epochLoss)
 
-    print(f"Epoch {epoch+1}/{numEpochs}, Loss: {epochLoss:.4f}")
+    # ---- validation loss (no gradient, no augmentation) ----
+    model.eval()
+    valRunningLoss = 0.0
+    with torch.no_grad():
+        for images, labels in valLoader:
+            images, labels = images.to(device), labels.to(device)
+            logits = model(images)
+            loss = criterion(logits, labels)
+            valRunningLoss += loss.item()
+
+    valLoss = valRunningLoss / len(valLoader)
+    valLosses.append(valLoss)
+
+    scheduler.step(valLoss)
+
+    print(
+        f"Epoch {epoch+1}/{numEpochs}, "
+        f"Train Loss: {epochLoss:.4f}, Val Loss: {valLoss:.4f}"
+    )
 
 print("Training complete.")
 
 plt.figure(figsize=(10, 4))
-plt.plot(allLosses[0], label="Epoch 1")
+plt.plot(allLosses[0], label="Epoch 1 train batches")
 plt.xlabel("Batch index")
 plt.ylabel("Loss")
-plt.title("Training Loss per Batch")
+plt.title("Training Loss per Batch (Epoch 1)")
 plt.legend()
 plt.show()
 
